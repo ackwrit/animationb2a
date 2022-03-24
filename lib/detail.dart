@@ -184,16 +184,29 @@ class detailState extends State<detail>{
             ],
           ),
 
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(position.toString().substring(2,7)),
+              Text(duree.toString().substring(2,7))
+
+            ],
+          ),
+
 
 
           //Timeline
           Slider(
-              value: time,
+              value: position.inSeconds.toDouble(),
+              min: 0.0,
+              max: (duree == null)?0.0:duree.inSeconds.toDouble(),
               activeColor: Colors.black,
               inactiveColor: Colors.red,
               onChanged: (value){
                 setState(() {
-                  time =value;
+                  Duration timepass = Duration(seconds: value.toInt());
+                  position = timepass;
+                  audioPlayer.play(widget.music.path,position: position,volume: volume);
                 });
               }
           )
