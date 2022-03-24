@@ -89,6 +89,41 @@ class detailState extends State<detail>{
     await audioPlayer.pause();
   }
 
+  rewind(){
+    if(position <= Duration(seconds:5)){
+      setState(() {
+        audioPlayer.stop();
+        audioPlayer.seek(Duration(seconds: 0));
+        position = new Duration(seconds: 0);
+        audioPlayer.play(widget.music.path,position: position,volume: volume);
+      });
+
+    }
+    else
+      {
+        setState(() {
+          audioPlayer.stop();
+          audioPlayer.seek(Duration(seconds: position.inSeconds - 5));
+          position = new Duration(seconds: position.inSeconds - 5);
+          audioPlayer.play(widget.music.path,position: position,volume: volume);
+
+        });
+
+
+
+      }
+  }
+
+  forward(){
+    if(position.inSeconds + 10< duree.inSeconds){
+      setState(() {
+        position = new Duration(seconds: position.inSeconds+10);
+        audioPlayer.pause();
+        audioPlayer.play(widget.music.path,position: position,volume: volume);
+      });
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -148,6 +183,7 @@ class detailState extends State<detail>{
               //Teste
               IconButton(
                   onPressed: (){
+                    rewind();
 
                   },
                   icon: Icon(Icons.fast_rewind_sharp)
@@ -175,6 +211,7 @@ class detailState extends State<detail>{
 
               IconButton(
                   onPressed: (){
+                    forward();
 
 
                   },
