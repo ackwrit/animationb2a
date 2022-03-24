@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:animationb2a/model/Morceau.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 class detail extends StatefulWidget{
@@ -13,7 +16,77 @@ class detail extends StatefulWidget{
 }
 
 class detailState extends State<detail>{
+  //Variable
   double time=0.0;
+  statutLecture lecture = statutLecture.stopped;
+  double volume = 0.5;
+  AudioPlayer audioPlayer = AudioPlayer();
+  Duration duree = Duration(seconds: 0);
+  Duration position = Duration(seconds: 0);
+  late StreamSubscription positionStream;
+  late StreamSubscription stateStream;
+
+
+
+
+
+  ///
+  ///
+  ///
+  /// Methode de configuration
+  configuration(){
+    audioPlayer.setUrl(widget.music.path,isLocal: true);
+    positionStream = audioPlayer.onAudioPositionChanged.listen((event) {
+      setState(() {
+        position = event;
+      });
+    });
+    audioPlayer.onDurationChanged.listen((event) {
+      setState(() {
+        duree = event;
+      });
+    });
+    stateStream = audioPlayer.onPlayerStateChanged.listen((event) {
+      if(event == statutLecture.playing){
+        setState(() async {
+          duree = audioPlayer.getDuration() as Duration;
+        });
+
+      }
+      else if(event == statutLecture.stopped){
+        setState(() {
+          lecture = statutLecture.stopped;
+        });
+      }
+    },
+        onError:(message){
+      setState(() {
+        lecture = statutLecture.stopped;
+        position = Duration(seconds: 0);
+        duree = Duration(seconds: 0);
+      });
+        }
+    );
+
+  }
+  ///
+  ///
+  /// Methode play
+  Future play() async {
+    if(position>Duration(seconds: 0)){
+      await audioPlayer.play(widget.music.path,isLocal: true,volume: volume,position: position);
+    }
+    else
+      {
+        await audioPlayer.play(widget.music.path,isLocal: true,volume: volume);
+      }
+  }
+  ///
+  ///
+  /// Methode pause
+  Future pause() async {
+    await audioPlayer.pause();
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -48,7 +121,7 @@ class detailState extends State<detail>{
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("${widget.music.title}",style: TextStyle(fontSize: 30),),
-              (widget.music.album == null)?Container():Text("${widget.music.album}",style: TextStyle(fontSize: 30),),
+              (widget.music.album == null)?Container():Text(" - ${widget.music.album}",style: TextStyle(fontSize: 30),),
             ],
           ),
 
@@ -68,15 +141,29 @@ class detailState extends State<detail>{
                   icon: Icon(Icons.fast_rewind_sharp)
               ),
 
-              IconButton(
+              (lecture == statutLecture.stopped)?IconButton(
                   onPressed: (){
 
+                    setState(() {
+                      print("message");
+
+                      lecture == statutLecture.paused;
+                    });
                   },
                   icon: Icon(Icons.play_arrow,size: 35,)
+              ):IconButton(
+                  onPressed: (){
+                    setState(() {
+                      lecture == statutLecture.stopped;
+                    });
+
+                  },
+                  icon: Icon(Icons.pause,size: 35,)
               ),
 
               IconButton(
                   onPressed: (){
+
 
                   },
                   icon: Icon(Icons.fast_forward_rounded)
@@ -104,4 +191,12 @@ class detailState extends State<detail>{
     );
   }
 
+}
+
+enum statutLecture{
+  playing,
+  stopped,
+  paused,
+  forward,
+  rewind,
 }
