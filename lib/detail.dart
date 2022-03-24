@@ -35,7 +35,8 @@ class detailState extends State<detail>{
   ///
   /// Methode de configuration
   configuration(){
-    audioPlayer.setUrl(widget.music.path,isLocal: true);
+
+    audioPlayer.setUrl(widget.music.path);
     positionStream = audioPlayer.onAudioPositionChanged.listen((event) {
       setState(() {
         position = event;
@@ -74,11 +75,11 @@ class detailState extends State<detail>{
   /// Methode play
   Future play() async {
     if(position>Duration(seconds: 0)){
-      await audioPlayer.play(widget.music.path,isLocal: true,volume: volume,position: position);
+      await audioPlayer.play(widget.music.path,volume: volume,position: position,isLocal: true);
     }
     else
       {
-        await audioPlayer.play(widget.music.path,isLocal: true,volume: volume);
+        await audioPlayer.play(widget.music.path,volume: volume,isLocal: true);
       }
   }
   ///
@@ -87,6 +88,16 @@ class detailState extends State<detail>{
   Future pause() async {
     await audioPlayer.pause();
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    configuration();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -134,6 +145,7 @@ class detailState extends State<detail>{
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              //Teste
               IconButton(
                   onPressed: (){
 
@@ -145,16 +157,16 @@ class detailState extends State<detail>{
                   onPressed: (){
 
                     setState(() {
-
-
-                      lecture == statutLecture.paused;
+                      lecture = statutLecture.paused;
+                      play();
                     });
                   },
                   icon: Icon(Icons.play_arrow,size: 35,)
               ):IconButton(
                   onPressed: (){
                     setState(() {
-                      lecture == statutLecture.stopped;
+                      lecture = statutLecture.stopped;
+                      pause();
                     });
 
                   },
