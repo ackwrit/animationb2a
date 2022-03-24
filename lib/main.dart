@@ -38,7 +38,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<Morceau> allMorceau =[
-    Morceau(title: "Morceau", singer: "Djino", path: "assets/sons/09.AbuSimbel.mp3"),
+    Morceau(title: "Morceau", singer: "Djino", path: "assets/sons/09.AbuSimbel.mp3",album: "B2"),
     Morceau(title: "Big Boss", singer: "Lipton", path: "assets/sons/14.Alibi.mp3",image: "assets/image/Tomb-Raider-definitive-ed-012.jpg"),
     Morceau(title: "All Night", singer: "Table", path: "assets/sons/16.Inheritance.mp3"),
     Morceau(title: "Lemon", singer: "Dowwap", path: "assets/sons/21. IWasn'tThinking.mp3",image: "assets/image/Watch-Dogs-Characters.jpg"),
