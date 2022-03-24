@@ -145,7 +145,7 @@ class detailState extends State<detail>{
                   onPressed: (){
 
                     setState(() {
-                      print("message");
+
 
                       lecture == statutLecture.paused;
                     });
