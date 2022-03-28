@@ -152,8 +152,10 @@ class detailState extends State<detail>{
           //Image du Cover
           Hero(
               tag: widget.music.title,
-              child: Container(
-                height: 250,
+              child: AnimatedContainer(
+                curve: Curves.decelerate,
+                duration: Duration(seconds: 3),
+                height: (lecture == statutLecture.stopped)?100:250,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     image: DecorationImage(
