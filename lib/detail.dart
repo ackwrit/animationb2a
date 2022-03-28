@@ -150,16 +150,19 @@ class detailState extends State<detail>{
       child:Column(
         children: [
           //Image du Cover
-          Container(
-            height: 250,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                    image: (widget.music.image == null)?AssetImage("assets/image/indispo.jpeg"):AssetImage(widget.music.image!),
-                    fit: BoxFit.fill
-                )
-            ),
-          ),
+          Hero(
+              tag: widget.music.title,
+              child: Container(
+                height: 250,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    image: DecorationImage(
+                        image: (widget.music.image == null)?AssetImage("assets/image/indispo.jpeg"):AssetImage(widget.music.image!),
+                        fit: BoxFit.fill
+                    )
+                ),
+              )),
+
           SizedBox(height: 10,),
 
           //Titre et l'album
