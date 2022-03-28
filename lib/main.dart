@@ -1,3 +1,4 @@
+import 'package:animationb2a/design/customPath.dart';
 import 'package:animationb2a/detail.dart';
 import 'package:animationb2a/model/Morceau.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +79,12 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        color: Colors.amber,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/image/Watch-Dogs-Characters.jpg"),
+            fit: BoxFit.fill
+          )
+        ),
 
       ),
     );
