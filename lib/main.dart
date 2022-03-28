@@ -51,19 +51,40 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Container(
-        padding: EdgeInsets.all(20),
-        child: bodyPage(),
-        //Derbière versio
+
+      body: Stack(
+        children: [
+
+          //Fond d'écran
+          fondEcran(),
+
+          //Code de la page
+          Container(
+            padding: EdgeInsets.all(20),
+            child: bodyPage(),
+            //Derbière versio
+          )
+        ],
       )
+
+
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  Widget fondEcran(){
+    return ClipPath(
+      clipper: customPath(),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        color: Colors.amber,
+
+      ),
+    );
+  }
+
+
 
   Widget bodyPage(){
     return GridView.builder(
